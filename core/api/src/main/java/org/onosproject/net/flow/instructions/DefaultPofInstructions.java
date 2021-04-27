@@ -42,6 +42,11 @@ public final class DefaultPofInstructions {
         return new PofInstructionApplyActions(actions);
     }
 
+    public static PofInstruction gotoSP(byte bitmap) {
+        checkNotNull(bitmap, "bitmap cannot be null");
+        return new PofInstructionGotoSP(bitmap);
+    }
+
 
     /**
      *
@@ -551,6 +556,53 @@ public final class DefaultPofInstructions {
 
             }
             return false;
+        }
+    }
+
+    /**
+     * POF instruction goto_sp
+     */
+    public static final class PofInstructionGotoSP implements PofInstruction {
+        private final OFInstructionGotoSP insGotoSP;
+
+        private PofInstructionGotoSP(byte bitmap) {
+            this.insGotoSP = new OFInstructionGotoSP();
+            this.insGotoSP.setBitmap(bitmap);
+        }
+
+        private PofInstructionGotoSP(OFInstructionGotoSP gotosp) {
+            this.insGotoSP = gotosp;
+        }
+
+        public PofInstructionType pofInstructionType() {
+            return PofInstructionType.GOTO_SP;
+        }
+
+        public OFInstruction instruction() {
+            return this.insGotoSP;
+        }
+
+        public Type type() {
+            return Type.POFINSTRUCTION;
+        }
+
+        public String toString() {
+            return this.type().toString() + ":" + this.insGotoSP.toString();
+        }
+
+        public int hashCode() {
+            return Objects.hash(type().ordinal(), insGotoSP);
+        }
+
+        public boolean equals(Object obj) {
+            if (this == obj) {
+                return true;
+            } else if (!(obj instanceof OFInstructionGotoSP)) {
+                return false;
+            } else {
+                OFInstructionGotoSP that = (OFInstructionGotoSP)obj;
+                return Objects.equals(this.insGotoSP.getBitmap(), that.getBitmap());
+            }
         }
     }
 

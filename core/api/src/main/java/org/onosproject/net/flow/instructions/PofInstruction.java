@@ -25,7 +25,9 @@ public interface PofInstruction extends Instruction {
 
         WRITE_METADATA_FROM_PACKET,
 
-        METER
+        METER,
+
+        GOTO_SP
 
         //TODO: remaining types
     }
